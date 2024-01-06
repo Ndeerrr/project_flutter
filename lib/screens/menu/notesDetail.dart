@@ -97,17 +97,9 @@ class _NotesDetailState extends State<NotesDetail> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      dateController.text,
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 193, 175, 219),
-                        fontSize: 20,
-                      ),
-                    ),
                     SizedBox(height: 20),
                     Container(
-                      height: MediaQuery.of(context).size.height - 224,
+                      height: MediaQuery.of(context).size.height - 191,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Text(

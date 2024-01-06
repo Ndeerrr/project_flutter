@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_flutter/screens/menu/notesCreate.dart';
 import 'package:project_flutter/screens/menu/notesDetail.dart';
+import 'package:intl/intl.dart';
 
 class Notes extends StatefulWidget {
   const Notes({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class _NotesState extends State<Notes> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Color.fromARGB(255, 138, 94, 209),
-        title: const Text(''),
+        title: const Text('Notes'),
         centerTitle: true,
         automaticallyImplyLeading: false,
         actions: [
@@ -88,15 +89,34 @@ class _NotesState extends State<Notes> {
                           var data = snapshot.data!.docs;
 
                           data.sort((a, b) {
-                            var dateComparison = b['date'].compareTo(a['date']);
+                            DateTime dateA;
+                            DateTime dateB;
+
+                            try {
+                              dateA = DateFormat('dd-MM-yyyy').parse(a['date']);
+                            } catch (e) {
+                              dateA = DateTime(1900, 1,
+                                  1); // Default date for invalid format
+                            }
+
+                            try {
+                              dateB = DateFormat('dd-MM-yyyy').parse(b['date']);
+                            } catch (e) {
+                              dateB = DateTime(1900, 1,
+                                  1); // Default date for invalid format
+                            }
+
+                            // Compare by formatted date
+                            var dateComparison = dateB.compareTo(dateA);
                             if (dateComparison != 0) {
                               return dateComparison;
                             }
+
+                            // Case-insensitive compare by title
                             return a['title']
                                 .toLowerCase()
                                 .compareTo(b['title'].toLowerCase());
                           });
-
                           return Container(
                             height: MediaQuery.of(context).size.height - 227,
                             child: ListView.builder(

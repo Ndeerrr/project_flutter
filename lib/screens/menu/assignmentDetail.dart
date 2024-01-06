@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:project_flutter/screens/menu/notesUpdate.dart';
+import 'package:project_flutter/screens/menu/assignmentUpdate.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AssignmentDetail extends StatefulWidget {
   final String? documentId;
-  final Map<String, dynamic>? notes;
+  final Map<String, dynamic>? assignment;
 
-  const AssignmentDetail({Key? key, this.documentId, this.notes})
+  const AssignmentDetail({Key? key, this.documentId, this.assignment})
       : super(key: key);
 
   @override
@@ -16,16 +17,16 @@ class AssignmentDetail extends StatefulWidget {
 class _AssignmentDetailState extends State<AssignmentDetail> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController detailController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
+  final TextEditingController deadlineController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    if (widget.notes != null) {
-      Map<String, dynamic> notes = widget.notes!;
-      titleController.text = notes['title'];
-      detailController.text = notes['detail'];
-      dateController.text = notes['date'];
+    if (widget.assignment != null) {
+      Map<String, dynamic> assignment = widget.assignment!;
+      titleController.text = assignment['title'];
+      detailController.text = assignment['detail'];
+      deadlineController.text = assignment['deadline'];
     }
   }
 
@@ -35,7 +36,7 @@ class _AssignmentDetailState extends State<AssignmentDetail> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Color.fromARGB(255, 138, 94, 209),
-        title: const Text('Notes'),
+        title: const Text('Assignment'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -44,19 +45,21 @@ class _AssignmentDetailState extends State<AssignmentDetail> {
               final updatedData = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => NotesUpdate(
+                  builder: (context) => AssignmentUpdate(
                     documentId: widget.documentId,
-                    notes: widget.notes,
+                    assignment: widget.assignment,
                   ),
                 ),
               );
               if (updatedData != null) {
                 print('Updated Data: $updatedData');
                 setState(() {
-                  widget.notes!['title'] = updatedData['title'];
-                  widget.notes!['detail'] = updatedData['detail'];
+                  widget.assignment!['title'] = updatedData['title'];
+                  widget.assignment!['detail'] = updatedData['detail'];
+                  widget.assignment!['deadline'] = updatedData['deadline'];
                   titleController.text = updatedData['title'];
                   detailController.text = updatedData['detail'];
+                  deadlineController.text = updatedData['deadline'];
                 });
               }
             },
@@ -100,7 +103,7 @@ class _AssignmentDetailState extends State<AssignmentDetail> {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      dateController.text,
+                      deadlineController.text,
                       style: TextStyle(
                         color: Color.fromARGB(255, 193, 175, 219),
                         fontSize: 20,
@@ -108,7 +111,7 @@ class _AssignmentDetailState extends State<AssignmentDetail> {
                     ),
                     SizedBox(height: 20),
                     Container(
-                      height: MediaQuery.of(context).size.height - 224,
+                      height: MediaQuery.of(context).size.height - 269,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Text(
@@ -122,6 +125,64 @@ class _AssignmentDetailState extends State<AssignmentDetail> {
                     ),
                   ],
                 ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15.0),
+                  topRight: Radius.circular(15.0),
+                ),
+              ),
+              height: 56,
+              child: ElevatedButton(
+                onPressed: () async {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Confirmation'),
+                        content: Text('Are you sure?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              if (widget.documentId != null) {
+                                await FirebaseFirestore.instance
+                                    .collection('assignment')
+                                    .doc(widget.documentId)
+                                    .delete();
+                              }
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
+                            child: Text('Done'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 138, 94, 209),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15.0),
+                      topRight: Radius.circular(15.0),
+                    ),
+                  ),
+                ),
+                child: Text('Done'),
               ),
             ),
           ),

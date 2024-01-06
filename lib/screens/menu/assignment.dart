@@ -24,7 +24,7 @@ class _AssignmentState extends State<Assignment> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Color.fromARGB(255, 138, 94, 209),
-        title: const Text(''),
+        title: const Text('Assignment'),
         centerTitle: true,
         automaticallyImplyLeading: false,
         actions: [
@@ -99,12 +99,33 @@ class _AssignmentState extends State<Assignment> {
                                 .isAfter(today.subtract(Duration(days: 1)));
                           }).toList();
 
-                          onProgressData.sort((a, b) {
-                            var dateComparison =
-                                a['deadline'].compareTo(b['deadline']);
+                          data.sort((a, b) {
+                            DateTime dateA;
+                            DateTime dateB;
+
+                            try {
+                              dateA =
+                                  DateFormat('dd-MM-yyyy').parse(a['deadline']);
+                            } catch (e) {
+                              dateA = DateTime(1900, 1,
+                                  1); // Default date for invalid format
+                            }
+
+                            try {
+                              dateB =
+                                  DateFormat('dd-MM-yyyy').parse(b['deadline']);
+                            } catch (e) {
+                              dateB = DateTime(1900, 1,
+                                  1); // Default date for invalid format
+                            }
+
+                            // Compare by formatted date
+                            var dateComparison = dateB.compareTo(dateA);
                             if (dateComparison != 0) {
                               return dateComparison;
                             }
+
+                            // Case-insensitive compare by title
                             return a['title']
                                 .toLowerCase()
                                 .compareTo(b['title'].toLowerCase());
@@ -136,6 +157,18 @@ class _AssignmentState extends State<Assignment> {
                                             Color.fromARGB(255, 193, 175, 219),
                                       ),
                                     ),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              AssignmentDetail(
+                                            documentId: item.id,
+                                            assignment: item.data(),
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 );
                               },
@@ -181,11 +214,32 @@ class _AssignmentState extends State<Assignment> {
                           }).toList();
 
                           overdueData.sort((a, b) {
-                            var dateComparison =
-                                b['deadline'].compareTo(a['deadline']);
+                            DateTime dateA;
+                            DateTime dateB;
+
+                            try {
+                              dateA =
+                                  DateFormat('dd-MM-yyyy').parse(a['deadline']);
+                            } catch (e) {
+                              dateA = DateTime(1900, 1,
+                                  1); // Default date for invalid format
+                            }
+
+                            try {
+                              dateB =
+                                  DateFormat('dd-MM-yyyy').parse(b['deadline']);
+                            } catch (e) {
+                              dateB = DateTime(1900, 1,
+                                  1); // Default date for invalid format
+                            }
+
+                            // Compare by formatted date
+                            var dateComparison = dateB.compareTo(dateA);
                             if (dateComparison != 0) {
                               return dateComparison;
                             }
+
+                            // Case-insensitive compare by title
                             return a['title']
                                 .toLowerCase()
                                 .compareTo(b['title'].toLowerCase());
@@ -224,7 +278,7 @@ class _AssignmentState extends State<Assignment> {
                                           builder: (context) =>
                                               AssignmentDetail(
                                             documentId: item.id,
-                                            notes: item.data(),
+                                            assignment: item.data(),
                                           ),
                                         ),
                                       );

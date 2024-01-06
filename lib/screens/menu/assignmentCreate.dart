@@ -223,8 +223,13 @@ class _AssignmentCreateState extends State<AssignmentCreate> {
             left: 0,
             right: 0,
             child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15.0),
+                  topRight: Radius.circular(15.0),
+                ),
+              ),
               height: 56,
-              color: Color.fromARGB(255, 138, 94, 209),
               child: ElevatedButton(
                 onPressed: () async {
                   var error = false;
@@ -284,6 +289,12 @@ class _AssignmentCreateState extends State<AssignmentCreate> {
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Color.fromARGB(255, 138, 94, 209),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15.0),
+                      topRight: Radius.circular(15.0),
+                    ),
+                  ),
                 ),
                 child: Text('Add Data'),
               ),
