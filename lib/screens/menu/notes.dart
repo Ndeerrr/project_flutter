@@ -26,7 +26,6 @@ class _NotesState extends State<Notes> {
         backgroundColor: Color.fromARGB(255, 138, 94, 209),
         title: const Text('Notes'),
         centerTitle: true,
-        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: Icon(Icons.add),
@@ -51,7 +50,7 @@ class _NotesState extends State<Notes> {
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height - 113,
+                  height: MediaQuery.of(context).size.height - 56,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(

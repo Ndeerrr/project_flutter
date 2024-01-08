@@ -23,109 +23,123 @@ class landing_screen extends StatelessWidget {
                     children: [
                       Container(),
                       Container(
-                        margin: EdgeInsets.all(40),
+                        margin: EdgeInsets.only(bottom: 40),
+                        alignment: Alignment.center,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Welcome",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 50 *
-                                    MediaQuery.of(context).size.width /
-                                    500 *
-                                    MediaQuery.of(context).size.height /
-                                    750,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "Manage your products",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25 *
-                                    MediaQuery.of(context).size.width /
-                                    500,
-                              ),
-                            ),
-                            Text(
-                              "Seamlessly & Intuitively",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30 *
-                                    MediaQuery.of(context).size.width /
-                                    500,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const Login(
-                                      showAdditionalContent: true,
+                            Container(
+                              margin: EdgeInsets.only(left: 20, right: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Welcome",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 60 *
+                                          MediaQuery.of(context).size.width /
+                                          500 *
+                                          MediaQuery.of(context).size.height /
+                                          750,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                                minimumSize: Size(
-                                    double.infinity, kMinInteractiveDimension),
-                                fixedSize: Size(double.infinity, 60.0),
-                              ),
-                              child: Text(
-                                "Sign in with Google",
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 138, 94, 209),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const Register(
-                                      showAdditionalContent: true,
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Text(
+                                    "Manage your needs",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25 *
+                                          MediaQuery.of(context).size.width /
+                                          500,
                                     ),
                                   ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Color.fromARGB(255, 138, 94, 209),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  side: BorderSide(
-                                    color: Colors.white, // Set the border color
-                                    width: 3.0, // Set the border width
+                                  Text(
+                                    "Seamlessly & Intuitively",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30 *
+                                          MediaQuery.of(context).size.width /
+                                          500,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                minimumSize: Size(
-                                    double.infinity, kMinInteractiveDimension),
-                                fixedSize: Size(double.infinity, 60.0),
-                              ),
-                              child: Text(
-                                "Create an account",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                  SizedBox(
+                                    height: 30,
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => const Login(
+                                            showAdditionalContent: true,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
+                                      ),
+                                      minimumSize: Size(double.infinity,
+                                          kMinInteractiveDimension),
+                                      fixedSize: Size(double.infinity, 60.0),
+                                    ),
+                                    child: Text(
+                                      "Sign in with Google",
+                                      style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 138, 94, 209),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => const Register(
+                                            showAdditionalContent: true,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary:
+                                          Color.fromARGB(255, 138, 94, 209),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
+                                        side: BorderSide(
+                                          color: Colors
+                                              .white, // Set the border color
+                                          width: 3.0, // Set the border width
+                                        ),
+                                      ),
+                                      minimumSize: Size(double.infinity,
+                                          kMinInteractiveDimension),
+                                      fixedSize: Size(double.infinity, 60.0),
+                                    ),
+                                    child: Text(
+                                      "Create an account",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             SizedBox(

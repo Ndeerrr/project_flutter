@@ -153,6 +153,17 @@ class _AssignmentState extends State<Assignment> {
                                     ),
                                   ],
                                 ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AssignmentDetail(
+                                        documentId: item.id,
+                                        assignment: item.data(),
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             );
                           },

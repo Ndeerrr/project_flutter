@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:project_flutter/screens/menu/transactionCreate.dart';
-import 'package:project_flutter/screens/menu/transactionDetail.dart';
+import 'package:project_flutter/screens/landing.dart';
+import 'package:project_flutter/screens/menu/assignmentDetail.dart';
+import 'package:project_flutter/screens/menu/notes.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -24,20 +25,62 @@ class _DashboardState extends State<Dashboard> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Color.fromARGB(255, 138, 94, 209),
-        title: const Text('Transaction'),
+        title: const Text(''),
         centerTitle: true,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TransactionCreate(),
-                ),
+            icon: Icon(Icons.logout_rounded),
+            onPressed: () async {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Confirmation'),
+                    content: Text('Are you sure want to log out?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 138, 94, 209),
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => landing_screen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Log out',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 138, 94, 209),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
               );
             },
+            style: ElevatedButton.styleFrom(
+              primary: Color.fromARGB(255, 138, 94, 209),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15.0),
+                  topRight: Radius.circular(15.0),
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -50,7 +93,6 @@ class _DashboardState extends State<Dashboard> {
               Expanded(
                 child: Container(
                   margin: EdgeInsets.only(
-                    top: 40,
                     right: 40,
                     left: 40,
                   ),
@@ -193,7 +235,7 @@ class _DashboardState extends State<Dashboard> {
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   width: double.infinity,
-                  height: (MediaQuery.of(context).size.height * 0.75 - 193),
+                  height: (MediaQuery.of(context).size.height * 0.75 - 200),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -202,94 +244,162 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                   child: Container(
-                    margin: EdgeInsets.all(40),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(
-                          "Recent Transaction",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 138, 94, 209),
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                          stream: db
-                              .collection('transaction')
-                              .orderBy('date')
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            if (snapshot.hasError) {
-                              return const Center(
-                                child: Text("Error"),
-                              );
-                            }
-                            var data = snapshot.data!.docs;
+                        Column(
+                          children: [
+                            Text(
+                              "On Progress Deadline",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 138, 94, 209),
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: double.infinity,
+                              height: (MediaQuery.of(context).size.height / 4),
+                              child: StreamBuilder<
+                                  QuerySnapshot<Map<String, dynamic>>>(
+                                stream: db
+                                    .collection('assignment')
+                                    .orderBy('deadline')
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                  if (snapshot.hasError) {
+                                    return const Center(
+                                      child: Text("Error"),
+                                    );
+                                  }
+                                  var data = snapshot.data!.docs;
 
-                            data.sort((a, b) {
-                              DateTime dateA;
-                              DateTime dateB;
+                                  data = data.where((assignment) {
+                                    DateTime deadline;
+                                    try {
+                                      deadline = DateFormat('dd-MM-yyyy')
+                                          .parse(assignment['deadline']);
+                                    } catch (e) {
+                                      deadline = DateTime(1900, 1, 1);
+                                    }
+                                    return deadline.isAfter(DateTime.now()
+                                        .subtract(Duration(days: 1)));
+                                  }).toList();
 
-                              try {
-                                dateA =
-                                    DateFormat('dd-MM-yyyy').parse(a['date']);
-                              } catch (e) {
-                                dateA = DateTime(1900, 1, 1);
-                              }
+                                  data.sort((a, b) {
+                                    DateTime dateA;
+                                    DateTime dateB;
 
-                              try {
-                                dateB =
-                                    DateFormat('dd-MM-yyyy').parse(b['date']);
-                              } catch (e) {
-                                dateB = DateTime(1900, 1, 1);
-                              }
+                                    try {
+                                      dateA = DateFormat('dd-MM-yyyy')
+                                          .parse(a['deadline']);
+                                    } catch (e) {
+                                      dateA = DateTime(1900, 1, 1);
+                                    }
 
-                              return dateB.compareTo(dateA);
-                            });
+                                    try {
+                                      dateB = DateFormat('dd-MM-yyyy')
+                                          .parse(b['deadline']);
+                                    } catch (e) {
+                                      dateB = DateTime(1900, 1, 1);
+                                    }
 
-                            return Container(
-                              height:
-                                  (MediaQuery.of(context).size.height * 0.75 -
-                                          193) -
-                                      120,
-                              child: ListView.builder(
-                                itemCount: data.length,
-                                itemBuilder: (context, index) {
-                                  final item = data[index];
-                                  return Card(
-                                    margin: EdgeInsets.symmetric(vertical: 8.0),
-                                    child: ListTile(
-                                      title: Text(
-                                        item['date'],
-                                        style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 138, 94, 209),
-                                        ),
+                                    var dateComparison = dateB.compareTo(dateA);
+                                    if (dateComparison != 0) {
+                                      return dateComparison;
+                                    }
+
+                                    return a['title']
+                                        .toLowerCase()
+                                        .compareTo(b['title'].toLowerCase());
+                                  });
+
+                                  return Container(
+                                    height: 200,
+                                    child: GridView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 1,
+                                        crossAxisSpacing: 8,
+                                        mainAxisSpacing: 8,
                                       ),
-                                      trailing: Text(
-                                        "${item['status'] == "1" ? "+ " : "- "}${formatCurrency(int.parse(item['price']))}",
-                                        style: TextStyle(
-                                          color: item['status'] == "1"
-                                              ? Colors.green
-                                              : Color.fromARGB(
-                                                  255, 255, 121, 121),
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                TransactionDetail(
-                                              documentId: item.id,
-                                              transaction: item.data(),
+                                      itemCount: data.length,
+                                      itemBuilder: (context, index) {
+                                        final item = data[index];
+                                        return Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 8),
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Color.fromARGB(
+                                                        255, 138, 94, 209)
+                                                    .withOpacity(0.2),
+                                                spreadRadius: 1,
+                                                blurRadius: 10,
+                                                offset: Offset(0, 3),
+                                              ),
+                                            ],
+                                          ),
+                                          child: Card(
+                                            child: ListTile(
+                                              title: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    item['title'],
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Color.fromARGB(
+                                                          255, 138, 94, 209),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  Text(
+                                                    item['deadline'],
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                      color: Color.fromARGB(
+                                                          255, 193, 175, 219),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    item['detail'],
+                                                    style: TextStyle(
+                                                      color: Color.fromARGB(
+                                                          255, 138, 94, 209),
+                                                    ),
+                                                    maxLines: 4,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                ],
+                                              ),
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AssignmentDetail(
+                                                      documentId: item.id,
+                                                      assignment: item.data(),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
                                             ),
                                           ),
                                         );
@@ -298,8 +408,37 @@ class _DashboardState extends State<Dashboard> {
                                   );
                                 },
                               ),
-                            );
-                          },
+                            ),
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(right: 20, left: 20),
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Notes()),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Color.fromARGB(255, 138, 94, 209),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              minimumSize: Size(
+                                  double.infinity, kMinInteractiveDimension),
+                              fixedSize: Size(double.infinity, 60.0),
+                            ),
+                            child: Text(
+                              "Notes",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
