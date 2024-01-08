@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_flutter/screens/menu/Notes.dart';
 import 'package:project_flutter/screens/menu/assignment.dart';
 import 'package:project_flutter/screens/menu/dashboard.dart';
+import 'package:project_flutter/screens/menu/transaction.dart';
 
 class Menu extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class MenuState extends State<Menu> {
   int _currentIndex = 0;
 
   List<Widget> _pages = [
-    Dashboard(),
+    Transaction(),
     Assignment(),
     Notes(),
   ];
