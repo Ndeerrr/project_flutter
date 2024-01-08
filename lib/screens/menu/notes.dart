@@ -84,24 +84,20 @@ class _NotesState extends State<Notes> {
                           try {
                             dateA = DateFormat('dd-MM-yyyy').parse(a['date']);
                           } catch (e) {
-                            dateA = DateTime(
-                                1900, 1, 1); // Default date for invalid format
+                            dateA = DateTime(1900, 1, 1);
                           }
 
                           try {
                             dateB = DateFormat('dd-MM-yyyy').parse(b['date']);
                           } catch (e) {
-                            dateB = DateTime(
-                                1900, 1, 1); // Default date for invalid format
+                            dateB = DateTime(1900, 1, 1);
                           }
 
-                          // Compare by formatted date
                           var dateComparison = dateB.compareTo(dateA);
                           if (dateComparison != 0) {
                             return dateComparison;
                           }
 
-                          // Case-insensitive compare by title
                           return a['title']
                               .toLowerCase()
                               .compareTo(b['title'].toLowerCase());

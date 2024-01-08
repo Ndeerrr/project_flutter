@@ -246,7 +246,6 @@ class _AssignmentState extends State<Assignment> {
                                   .compareTo(b['title'].toLowerCase());
                             });
 
-                            // Filter data to show only assignments with deadlines before the current day
                             var currentDate = DateTime.now();
                             data = data.where((item) {
                               DateTime itemDate;

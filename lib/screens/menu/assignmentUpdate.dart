@@ -140,8 +140,7 @@ class _AssignmentUpdateState extends State<AssignmentUpdate> {
                     );
                   }
                 },
-                borderRadius: BorderRadius.circular(
-                    4), // Adjust the border radius as needed
+                borderRadius: BorderRadius.circular(4),
                 child: Container(
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(8),

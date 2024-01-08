@@ -121,9 +121,8 @@ class landing_screen extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(15.0),
                                         side: BorderSide(
-                                          color: Colors
-                                              .white, // Set the border color
-                                          width: 3.0, // Set the border width
+                                          color: Colors.white,
+                                          width: 3.0,
                                         ),
                                       ),
                                       minimumSize: Size(double.infinity,
