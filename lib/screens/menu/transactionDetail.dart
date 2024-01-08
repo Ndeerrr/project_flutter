@@ -110,7 +110,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     ),
                     SizedBox(height: 20),
                     Container(
-                      height: MediaQuery.of(context).size.height - 224,
+                      height: MediaQuery.of(context).size.height - 233,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Text(

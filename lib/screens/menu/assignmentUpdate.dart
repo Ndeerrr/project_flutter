@@ -308,12 +308,8 @@ class _AssignmentUpdateState extends State<AssignmentUpdate> {
                             ),
                           ),
                         ),
-                        minLines:
-                            (20 * MediaQuery.of(context).size.height / 1000)
-                                .toInt(),
-                        maxLines:
-                            (20 * MediaQuery.of(context).size.height / 1000)
-                                .toInt(),
+                        minLines: 1,
+                        maxLines: 5,
                         cursorColor: Color.fromARGB(255, 138, 94, 209),
                         style: TextStyle(
                           color: Color.fromARGB(255, 138, 94, 209),
@@ -343,13 +339,19 @@ class _AssignmentUpdateState extends State<AssignmentUpdate> {
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: Text('Confirmation'),
-                          content: Text('Are you sure?'),
+                          content: Text(
+                              'Are you sure want to delete this assignment?'),
                           actions: [
                             TextButton(
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: Text('Cancel'),
+                              child: Text(
+                                'Cancel',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 138, 94, 209),
+                                ),
+                              ),
                             ),
                             TextButton(
                               onPressed: () async {
@@ -362,7 +364,12 @@ class _AssignmentUpdateState extends State<AssignmentUpdate> {
                                 Navigator.pop(context);
                                 Navigator.pop(context);
                               },
-                              child: Text('Done'),
+                              child: Text(
+                                'Done',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 138, 94, 209),
+                                ),
+                              ),
                             ),
                           ],
                         );
@@ -378,7 +385,9 @@ class _AssignmentUpdateState extends State<AssignmentUpdate> {
                       ),
                     ),
                   ),
-                  child: Text('Delete Assignment'),
+                  child: Text(
+                    'Delete Assignment',
+                  ),
                 ),
               ),
             ),

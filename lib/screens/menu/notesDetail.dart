@@ -96,10 +96,12 @@ class _NotesDetailState extends State<NotesDetail> {
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 20),
                     Container(
-                      height: MediaQuery.of(context).size.height - 191,
+                      height: MediaQuery.of(context).size.height - 196,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Text(

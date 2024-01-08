@@ -100,6 +100,8 @@ class _AssignmentDetailState extends State<AssignmentDetail> {
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 10),
                     Text(
@@ -147,13 +149,18 @@ class _AssignmentDetailState extends State<AssignmentDetail> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: Text('Confirmation'),
-                        content: Text('Are you sure?'),
+                        content: Text('Are you done with this assignment?'),
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: Text('Cancel'),
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 138, 94, 209),
+                              ),
+                            ),
                           ),
                           TextButton(
                             onPressed: () async {
@@ -166,7 +173,12 @@ class _AssignmentDetailState extends State<AssignmentDetail> {
                               Navigator.pop(context);
                               Navigator.pop(context);
                             },
-                            child: Text('Done'),
+                            child: Text(
+                              'Done',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 138, 94, 209),
+                              ),
+                            ),
                           ),
                         ],
                       );

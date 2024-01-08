@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_flutter/screens/menu/Notes.dart';
 import 'package:project_flutter/screens/menu/assignment.dart';
 import 'package:project_flutter/screens/menu/dashboard.dart';
 import 'package:project_flutter/screens/menu/transaction.dart';
@@ -10,12 +9,12 @@ class Menu extends StatefulWidget {
 }
 
 class MenuState extends State<Menu> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
 
   List<Widget> _pages = [
     Transaction(),
+    Dashboard(),
     Assignment(),
-    Notes(),
   ];
 
   @override
@@ -47,16 +46,16 @@ class MenuState extends State<Menu> {
               elevation: 0.0,
               items: [
                 BottomNavigationBarItem(
+                  icon: Icon(Icons.currency_exchange),
+                  label: 'Transaction',
+                ),
+                BottomNavigationBarItem(
                   icon: Icon(Icons.home),
                   label: 'Dashboard',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.check),
+                  icon: Icon(Icons.task),
                   label: 'Assignment',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.book),
-                  label: 'Notes',
                 ),
               ],
             ),

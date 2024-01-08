@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-// Convert to StatefulWidget
 class AssignmentCreate extends StatefulWidget {
   AssignmentCreate({Key? key}) : super(key: key);
 
@@ -15,6 +14,15 @@ class _AssignmentCreateState extends State<AssignmentCreate> {
   final TextEditingController detailController = TextEditingController();
   final TextEditingController deadlineController = TextEditingController();
   var db = FirebaseFirestore.instance;
+
+  _AssignmentCreateState() {
+    _setDefaultDeadline();
+  }
+
+  void _setDefaultDeadline() {
+    DateTime today = DateTime.now();
+    deadlineController.text = DateFormat('dd-MM-yyyy').format(today);
+  }
 
   Widget build(BuildContext context) {
     DateTime _dateTime = DateTime.now();
@@ -204,10 +212,8 @@ class _AssignmentCreateState extends State<AssignmentCreate> {
                           ),
                         ),
                       ),
-                      minLines: (20 * MediaQuery.of(context).size.height / 1000)
-                          .toInt(),
-                      maxLines: (20 * MediaQuery.of(context).size.height / 1000)
-                          .toInt(),
+                      minLines: 1,
+                      maxLines: 5,
                       cursorColor: Color.fromARGB(255, 138, 94, 209),
                       style: TextStyle(
                         color: Color.fromARGB(255, 138, 94, 209),

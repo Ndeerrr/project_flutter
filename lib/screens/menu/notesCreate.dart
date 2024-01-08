@@ -116,10 +116,8 @@ class NotesCreate extends StatelessWidget {
                           ),
                         ),
                       ),
-                      minLines: (25 * MediaQuery.of(context).size.height / 1000)
-                          .toInt(),
-                      maxLines: (25 * MediaQuery.of(context).size.height / 1000)
-                          .toInt(),
+                      minLines: 1,
+                      maxLines: 13,
                       cursorColor: Color.fromARGB(255, 138, 94, 209),
                       style: TextStyle(
                         color: Color.fromARGB(255, 138, 94, 209),

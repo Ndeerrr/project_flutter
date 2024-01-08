@@ -214,10 +214,8 @@ class _NotesUpdateState extends State<NotesUpdate> {
                           ),
                         ),
                       ),
-                      minLines: (25 * MediaQuery.of(context).size.height / 1000)
-                          .toInt(),
-                      maxLines: (25 * MediaQuery.of(context).size.height / 1000)
-                          .toInt(),
+                      minLines: 1,
+                      maxLines: 13,
                       cursorColor: Color.fromARGB(255, 138, 94, 209),
                       style: TextStyle(
                         color: Color.fromARGB(255, 138, 94, 209),
@@ -247,14 +245,18 @@ class _NotesUpdateState extends State<NotesUpdate> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: Text('Confirmation'),
-                        content:
-                            Text('Are you sure you want to delete this item?'),
+                        content: Text('Are you sure want to delete this note?'),
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: Text('Cancel'),
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 138, 94, 209),
+                              ),
+                            ),
                           ),
                           TextButton(
                             onPressed: () async {
@@ -268,7 +270,12 @@ class _NotesUpdateState extends State<NotesUpdate> {
                               Navigator.pop(context);
                               Navigator.pop(context);
                             },
-                            child: Text('Delete'),
+                            child: Text(
+                              'Delete',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 138, 94, 209),
+                              ),
+                            ),
                           ),
                         ],
                       );
